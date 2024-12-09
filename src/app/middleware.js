@@ -53,5 +53,5 @@ export function middleware(req) {
 export const config = {
 
   matcher: ['/admin/:path*', '/dashboard/:path*', '/'], // Terapkan middleware untuk /admin dan /dashboard
-
 };
+
