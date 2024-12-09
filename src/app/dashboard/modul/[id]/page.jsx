@@ -11,6 +11,7 @@ import { CiSquarePlus } from "react-icons/ci";
 import { getCookie } from '../../../utils/authHelper'
 import ModalUploadModulDosen from '../../../components/common/ModalUploadModulDosen'
 import Loading from '../../../components/common/Loading'
+import { useFilter } from '../../../contexts/FileFilterContext'
 
 const page = () => {
   const { id } = useParams();
@@ -18,6 +19,7 @@ const page = () => {
   const [listDosen, setListDosen] = useState([]);
   const [listModul, setListModul] = useState([]);
   const role = getCookie('userRole');
+  const {searchQuery} = useFilter();
 
   const fetchMatakuliahById = async () => {
     try {
@@ -75,6 +77,10 @@ const page = () => {
     fetchMatakuliahById();
   }, []);
 
+  const filterModul = listModul.filter((modul) => {
+    return modul.title.toLowerCase().includes(searchQuery.toLowerCase());
+  });
+
   if (!matakuliah) {
     return (
       <Loading />
@@ -117,9 +123,9 @@ const page = () => {
         <ModalUploadModulDosen idMatakuliah={matakuliah.id} fetchMatakuliahById={fetchMatakuliahById} />
       )}
 
-      {listModul && listModul.length > 0 ? (
+      {filterModul && filterModul.length > 0 ? (
         <div className=''>
-          {listModul.map((modul, index) => (
+          {filterModul.map((modul, index) => (
             <ModulList modul={modul} handleReadModul={handleReadModul} key={index} handleDonwloadModul={handleDonwloadModul} role={role} fetchMatakuliahById={fetchMatakuliahById} />
           ))}
         </div>

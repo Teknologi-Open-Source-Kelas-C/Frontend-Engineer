@@ -7,26 +7,9 @@ import Skeleton from '../../components/common/Skeleton';
 import { useRouter } from 'next/navigation';
 import { fetchMatakuliah } from '../../services/matakuliahService';
 
-const ListMatakuliahMahasiswa = () => {
+const ListMatakuliahMahasiswa = ({ listMatakuliah, isLoading }) => {
   const router = useRouter();
-  const [listMatakuliah, setListMatakuliah] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const getListMatakuliah = async () => {
-    try {
-      setIsLoading(true);
-      const response = await fetchMatakuliah();
-      setListMatakuliah(response.data);
-    } catch (error) {
-      throw new Error(`Error fetching matakuliah: ${error.message}`);
-    } finally {
-      setIsLoading(false);
-    }
-  }
-
-  useEffect(() => {
-    getListMatakuliah();
-  }, []);
+  
   const responsive = {
     superLargeDesktop: {
       breakpoint: { max: 4000, min: 3000 },
