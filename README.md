@@ -1,36 +1,42 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+# Front-end sistem informasi E-book
 
-First, run the development server:
+berikut adalah cara untuk instalasi
 
+
+## Instalasi
+1. clone project
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+  git clone https://github.com/Teknologi-Open-Source-Kelas-C/Frontend-Engineer.git
+  cd Frontend-Engineer
+  code .
 ```
+2. install npm
+```bash
+  npm install
+```
+3. run project
+```bash
+  npm run dev
+```
+4. Open project in browser
+[local](https://localhost:3000)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+## Documentasi Tampilan
+1. Login Page
+![Login Page](https://raw.githubusercontent.com/Teknologi-Open-Source-Kelas-C/UI-UX/refs/heads/UI-mahasiswa/Tampilan%20Login.jpg)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2. Retgister Page
+![Login Page](https://github.com/Teknologi-Open-Source-Kelas-C/UI-UX/blob/UI-mahasiswa/Tampilan%20Registrasi.jpg?raw=true)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+3. Tampilan List Matakuliah
+![Login Page](https://github.com/Teknologi-Open-Source-Kelas-C/UI-UX/blob/UI-mahasiswa/Home%20Page%20Mahasiswa.jpg?raw=true)
 
-## Deploy on Vercel
+4. Tampilan Detail Matakuliah dan List Modul
+![Login Page](https://github.com/Teknologi-Open-Source-Kelas-C/UI-UX/blob/UI-mahasiswa/Tampilan%20lihat%20modul%20mahasiswa.jpg?raw=true)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
