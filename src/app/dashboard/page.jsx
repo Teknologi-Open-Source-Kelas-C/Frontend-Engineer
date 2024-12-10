@@ -8,50 +8,50 @@ import { getCookie } from '../utils/authHelper'
 import { useFilter } from '../contexts/FileFilterContext'
 
 const dashboardPage = () => {
-  const role = getCookie('userRole');
-  const [listMatakuliah, setListMatakuliah] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const { selectedSemester, searchQuery } = useFilter();
+    const role = getCookie('userRole');
+    const [listMatakuliah, setListMatakuliah] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const { selectedSemester, searchQuery } = useFilter();
 
 
-  const getListMatakuliah = useCallback(async () => {
-    setIsLoading(true);
-    try {
-      const response =
-        role === 'dosen'
-          ? await fetchMatakuliahDosen()
-          : await fetchMatakuliah();
-      setListMatakuliah(response.data);
-    } catch (error) {
-      console.error(`Error fetching matakuliah: ${error.message}`);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [role]);
+    const getListMatakuliah = useCallback(async () => {
+        setIsLoading(true);
+        try {
+            const response =
+                role === 'dosen'
+                    ? await fetchMatakuliahDosen()
+                    : await fetchMatakuliah();
+            setListMatakuliah(response.data);
+        } catch (error) {
+            console.error(`Error fetching matakuliah: ${error.message}`);
+        } finally {
+            setIsLoading(false);
+        }
+    }, [role]);
 
-  useEffect(() => {
-    getListMatakuliah();
-  }, [getListMatakuliah]);
+    useEffect(() => {
+        getListMatakuliah();
+    }, [getListMatakuliah]);
 
-  const filteredMatakuliah = listMatakuliah.filter((matakuliah) => {
-    const matchSemester = selectedSemester
-      ? matakuliah.semester === parseInt(selectedSemester)
-      : true;
-    const matchQuery = matakuliah.nama
-      .toLowerCase()
-      .includes(searchQuery.toLowerCase());
+    const filteredMatakuliah = listMatakuliah.filter((matakuliah) => {
+        const matchSemester = selectedSemester
+            ? matakuliah.semester === parseInt(selectedSemester)
+            : true;
+        const matchQuery = matakuliah.nama
+            .toLowerCase()
+            .includes(searchQuery.toLowerCase());
 
-    return matchSemester && matchQuery;
-  });
-  return (
-    <div className='container mx-auto p-4'>
-      {role === 'mahasiswa' && <LastSeen />}
+        return matchSemester && matchQuery;
+    });
+    return (
+        <div className='container mx-auto p-4'>
+            {role === 'mahasiswa' && <LastSeen />}
 
 
-      {role === 'dosen' ? <ListMatakuliahDosen listMatakuliah={filteredMatakuliah} isLoading={isLoading} /> : <ListMatakuliahMahasiswa listMatakuliah={filteredMatakuliah} isLoading={isLoading} />}
+            {role === 'dosen' ? <ListMatakuliahDosen listMatakuliah={filteredMatakuliah} isLoading={isLoading} /> : <ListMatakuliahMahasiswa listMatakuliah={filteredMatakuliah} isLoading={isLoading} />}
 
-    </div>
-  )
+        </div>
+    )
 }
 
 export default dashboardPage
