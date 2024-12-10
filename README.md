@@ -40,3 +40,10 @@ berikut adalah cara untuk instalasi
 ![Login Page](https://github.com/Teknologi-Open-Source-Kelas-C/UI-UX/blob/UI-mahasiswa/Tampilan%20lihat%20modul%20mahasiswa.jpg?raw=true)
 
 
+
+## Front-End
+
+- [@Ais Syafarinah Idris(531422054)](https://github.com/aissyaff)
+- [@April Agaatz (531422055)](https://github.com/aprilagtsz)
+- [@Didin S. Zakaria (531422065)](https://github.com/Didinzz)
+
