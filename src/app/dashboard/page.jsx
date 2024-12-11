@@ -7,7 +7,7 @@ import { fetchMatakuliah, fetchMatakuliahDosen } from '../services/matakuliahSer
 import { getCookie } from '../utils/authHelper'
 import { useFilter } from '../contexts/FileFilterContext'
 
-const dashboardPage = () => {
+const Page = () => {
     const role = getCookie('userRole');
     const [listMatakuliah, setListMatakuliah] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -54,4 +54,4 @@ const dashboardPage = () => {
     )
 }
 
-export default dashboardPage
+export default Page

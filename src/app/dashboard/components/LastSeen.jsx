@@ -3,8 +3,10 @@
 import React, { useEffect, useState } from 'react';
 import { getLastSeen } from '../../services/lastSeenServices';
 import Loading from '../../components/common/Loading';
+import { useRouter } from 'next/navigation';
 
 const LastSeen = () => {
+  const router = useRouter();
   const [lastSeen, setLastSeen] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -33,7 +35,7 @@ const LastSeen = () => {
       ) : lastSeen.length > 0 ? (
         <div className="flex overflow-x-auto space-x-4">
           {lastSeen.map((item, index) => (
-            <div key={index} className="w-72 h-52 bg-white border border-black rounded-lg flex-shrink-0 cursor-pointer">
+            <div key={index} className="w-72 h-52 bg-white border border-black rounded-lg flex-shrink-0 cursor-pointer" onClick={() => router.push(`/dashboard/modul/${item.matakuliah.id}`)}>
               <div className="bg-[#2c4b82] w-full h-fit rounded-tl-lg rounded-tr-lg font-semibold text-black-000 p-4 text-white">
                 <p className="text-lg text-white capitalize">{item.matakuliah.nama  }</p>
                 <p className="text-sm font-light text-white">Semester {item.matakuliah.semester}</p>

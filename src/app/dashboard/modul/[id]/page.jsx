@@ -44,34 +44,29 @@ const page = () => {
 
     const handleDonwloadModul = async (modulId) => {
         try {
-            const fileBlob = await downloadModul(modulId);
+          const response = await downloadModul(modulId);
+      
+          const  url  = response.url;
 
-            // membuat url untuk file yang di unduh
-            const url = window.URL.createObjectURL(new Blob([fileBlob]));
+          if (url) {
+            // Buat elemen anchor untuk memulai unduhan
             const link = document.createElement('a');
-            link.href = url;
-
-            // tentukan nama file dari header content-disposition
-            const contentDisposition = fileBlob.headers?.['content-disposition'];
-            let fileName = 'file';
-            if (contentDisposition) {
-                const match = contentDisposition.match(/filename="?(.+)"?/);
-                if (match) {
-                    fileName = match[1];
-                }
-            }
-
-            link.setAttribute('download', fileName); //set nama file
+            link.href = url; // URL file
+            link.setAttribute('download', ''); // Biarkan browser menangani nama file
             document.body.appendChild(link);
             link.click();
-
-            // hapus element jika sudah selesai
+      
+            // Hapus elemen setelah selesai
             document.body.removeChild(link);
+          } else {
+            alert('URL file tidak ditemukan.');
+          }
         } catch (error) {
-            console.log(error.message);
-            alert(error.message);
+          console.log('Error downloading file:', error.message);
+          alert('Gagal mengunduh modul');
         }
-    }
+      };
+      
 
     useEffect(() => {
         fetchMatakuliahById();
