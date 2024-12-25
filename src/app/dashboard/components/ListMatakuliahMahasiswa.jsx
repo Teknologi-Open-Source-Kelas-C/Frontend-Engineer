@@ -3,9 +3,8 @@
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import React, { useState, useEffect } from 'react'
-import Skeleton from '../../components/common/Skeleton';
 import { useRouter } from 'next/navigation';
-import { fetchMatakuliah } from '../../services/matakuliahService';
+import Loading from '../../components/common/Loading';
 
 const ListMatakuliahMahasiswa = ({ listMatakuliah, isLoading }) => {
   const router = useRouter();
@@ -35,7 +34,7 @@ const ListMatakuliahMahasiswa = ({ listMatakuliah, isLoading }) => {
     <section className="bg-white p-6 rounded-lg shadow-md mb-8 w-full overflow-x-hidden">
       <h2 className="text-xl font-semibold text-black-700 mb-4">Courses</h2>
       {isLoading ? (
-        <Skeleton />
+        <Loading />
       ) : listMatakuliah.length === 0 ? (
         <p className='text-center text-xl font-semibold'>Tidak ada matakuliah</p>
       ) : (

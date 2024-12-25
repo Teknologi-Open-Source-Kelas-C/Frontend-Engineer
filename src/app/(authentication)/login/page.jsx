@@ -7,14 +7,17 @@ import { login } from '../../services/authServices'
 import { getRole } from '../../utils/authHelper'
 import { FaEnvelope, FaKey } from "react-icons/fa";
 
-const loginPage = () => {
+const Page = () => {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [roleUser, setRoleUser] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
+
+    setIsLoading(true);
     try {
       const data = await login(email, password, roleUser);
       document.cookie = `token=${data.token}; path=/;`;
@@ -31,6 +34,8 @@ const loginPage = () => {
       Swal.fire('Success', 'Login successful', 'success');
     } catch (error) {
       Swal.fire('Error', error.message, 'error');
+    }finally{
+      setIsLoading(false);
     }
   }
   return (
@@ -61,13 +66,13 @@ const loginPage = () => {
                 <option value="mahasiswa">Mahasiswa</option>
               </select>
             </div>
-            <button className="btn bg-blue-500 hover:bg-blue-600 text-white w-full">Login</button>
+            <button className="btn bg-blue-500 hover:bg-blue-600 text-white w-full" disabled={isLoading}>{isLoading ? 'loading...' : 'Login'}</button>
           </form>
 
 
           <div className="flex justify-between mt-4 text-gray-600 text-sm">
             <a href="#" className="text-blue-800 hover:underline"></a>
-            <p>Don't have an account? <span onClick={() => router.push('/register')} className="text-blue-800 hover:underline cursor-pointer">Create</span></p>
+            <p>Dont have an account? <span onClick={() => router.push('/register')} className="text-blue-800 hover:underline cursor-pointer">Create</span></p>
           </div>
         </div>
 
@@ -79,4 +84,4 @@ const loginPage = () => {
   )
 }
 
-export default loginPage
+export default Page

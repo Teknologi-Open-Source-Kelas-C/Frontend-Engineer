@@ -18,6 +18,7 @@ const page = () => {
     const [matakuliah, setMatakuliah] = useState(null);
     const [listDosen, setListDosen] = useState([]);
     const [listModul, setListModul] = useState([]);
+    const [linkDownload, setLinkDownload] = useState('');
     const role = getCookie('userRole');
     const { searchQuery } = useFilter();
 
@@ -42,31 +43,34 @@ const page = () => {
         }
     }
 
-    const handleDonwloadModul = async (modulId) => {
-        try {
-          const response = await downloadModul(modulId);
-      
-          const  url  = response.url;
 
-          if (url) {
-            // Buat elemen anchor untuk memulai unduhan
-            const link = document.createElement('a');
-            link.href = url; // URL file
-            link.setAttribute('download', ''); // Biarkan browser menangani nama file
-            document.body.appendChild(link);
-            link.click();
-      
-            // Hapus elemen setelah selesai
-            document.body.removeChild(link);
-          } else {
-            alert('URL file tidak ditemukan.');
-          }
+    const handleDownloadModul = async (modulId) => {
+        try {
+            // Panggil API untuk mendapatkan URL file
+            const response = await downloadModul(modulId);
+
+            const url = response.url; // URL file dari API
+
+            if (url) {
+                // Buat elemen anchor untuk memulai unduhan
+                const link = document.createElement('a');
+                link.href = url; // URL file
+                link.setAttribute('download', ''); // Biarkan browser menentukan nama file
+                document.body.appendChild(link);
+                link.click();
+
+                // Hapus elemen setelah selesai
+                document.body.removeChild(link);
+            } else {
+                alert('URL file tidak ditemukan.');
+            }
         } catch (error) {
-          console.log('Error downloading file:', error.message);
-          alert('Gagal mengunduh modul');
+            console.log('Error downloading file:', error.message);
+            alert('Gagal mengunduh modul');
         }
-      };
-      
+    };
+
+
 
     useEffect(() => {
         fetchMatakuliahById();
@@ -78,9 +82,13 @@ const page = () => {
 
     if (!matakuliah) {
         return (
-            <Loading />
+            <div className='flex justify-center items-center h-screen'>
+                <Loading />
+            </div>
         )
     }
+
+    console.log(listModul);
 
     return (
         <div className="mx-auto my-10 p-4 w-4/6">
@@ -121,7 +129,7 @@ const page = () => {
             {filterModul && filterModul.length > 0 ? (
                 <div className=''>
                     {filterModul.map((modul, index) => (
-                        <ModulList modul={modul} handleReadModul={handleReadModul} key={index} handleDonwloadModul={handleDonwloadModul} role={role} fetchMatakuliahById={fetchMatakuliahById} />
+                        <ModulList modul={modul} handleReadModul={handleReadModul} key={index} handleDonwloadModul={handleDownloadModul} role={role} fetchMatakuliahById={fetchMatakuliahById} />
                     ))}
                 </div>
             ) : (
