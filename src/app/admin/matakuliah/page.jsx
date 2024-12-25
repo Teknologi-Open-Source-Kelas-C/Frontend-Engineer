@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import ContentTable from './ContentTable'
 import TambahMatakuliah from '../../components/layout/admin/modal/TambahMatakuliah'
 import { deleteMatakuliah, fetchMatakuliah } from '../../services/matakuliahService'
@@ -10,6 +10,8 @@ import Swal from 'sweetalert2'
 import debounce from 'lodash.debounce'
 
 const Page = () => {
+  const modalControllerRef = useRef(null);
+  const modalTambahControllerRef = useRef(null);
   const [listMatakuliah, setListMatakuliah] = useState([])
   const [listDosen, setListDosen] = useState([])
   const [selectMatakuliah, setSelectMatakuliah] = useState('')
@@ -18,8 +20,16 @@ const Page = () => {
 
   const onEditHandle = (id) => {
     setSelectMatakuliah(id);
-    document.getElementById('editMatakuliahModal').showModal();
-  }
+    if (modalControllerRef.current) {
+      modalControllerRef.current.openModal(); // Buka modal
+    }
+  };
+
+  const onAddHandleModal = () => {
+    if (modalTambahControllerRef.current) {
+      modalTambahControllerRef.current.openModal(); // Buka modal
+    }
+  };
 
   const getAllDosen = async () => {
     try {
@@ -92,7 +102,7 @@ const Page = () => {
       <div className="space-y-4">
         <main className="flex-1 p-6">
           <h2 className="text-2xl font-bold mb-4">Daftar Mata Kuliah</h2>
-          <button className="btn btn-wide bg-green-500 hover:bg-green-600 mb-5 text-white" onClick={() => document.getElementById('addMatakuliahModal').showModal()}>+ Tambah Mata Kuliah</button>
+          <button className="btn btn-wide bg-green-500 hover:bg-green-600 mb-5 text-white" onClick={onAddHandleModal}>+ Tambah Mata Kuliah</button>
           <label className="input input-bordered flex items-center gap-2 mb-5 w-2/6">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -132,8 +142,16 @@ const Page = () => {
           </div>
         </main>
       </div>
-      <TambahMatakuliah listDosen={listDosen} getListMatakuliah={getListMatakuliah} />
-      <EditMatakuliah listDosen={listDosen} matakuliahId={selectMatakuliah} getListMatakuliah={getListMatakuliah} />
+      <TambahMatakuliah 
+      listDosen={listDosen} 
+      getListMatakuliah={getListMatakuliah} 
+      onRef={(controller) => (modalTambahControllerRef.current = controller)}
+      />
+      <EditMatakuliah 
+      listDosen={listDosen} 
+      matakuliahId={selectMatakuliah} 
+      getListMatakuliah={getListMatakuliah}  
+      onRef={(controller) => (modalControllerRef.current = controller)} />
 
     </main>
 

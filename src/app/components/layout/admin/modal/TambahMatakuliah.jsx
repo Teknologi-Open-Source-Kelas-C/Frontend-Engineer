@@ -1,5 +1,5 @@
 'use client'
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import Swal from 'sweetalert2';
@@ -9,7 +9,7 @@ import { addMatakuliah } from '../../../../services/matakuliahService';
 const anmimatedComponents = makeAnimated();
 
 
-const TambahMatakuliah = ({ listDosen, getListMatakuliah  }) => {
+const TambahMatakuliah = ({ listDosen, getListMatakuliah, onRef  }) => {
   const modalRef = useRef(null);
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [nama, setNama] = useState('');
@@ -70,6 +70,16 @@ const TambahMatakuliah = ({ listDosen, getListMatakuliah  }) => {
       : [
         { value: 'no-data', label: 'Tidak ada data dosen', isDisabled: true },
       ]; // Opsi default jika kosong
+      
+       useEffect(() => {
+          // Meneruskan fungsi untuk mengontrol modal ke komponen induk
+          if (onRef) {
+            onRef({
+              openModal: () => modalRef.current.showModal(),
+              closeModal: () => modalRef.current.close(),
+            });
+          }
+        }, [onRef]);
   return (
     <dialog className="modal" id='addMatakuliahModal' ref={modalRef}>
       <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-md mx-4 sm:mx-0 modal-box">
