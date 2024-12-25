@@ -12,6 +12,7 @@ const TambahUser = ({ fetchAllUser }) => {
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('');
   const modalRef = useRef(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleCancle = () => {
     modalRef.current.close();
@@ -85,8 +86,8 @@ const TambahUser = ({ fetchAllUser }) => {
             <button type='button' className="btn btn-ghost bg-gray-300 hover:bg-gray-400  w-1/2" onClick={handleCancle}>
               Batal
             </button>
-            <button type='submit' className="btn bg-blue-500 hover:bg-blue-600 text-white w-1/2">
-              Simpan
+            <button type='submit' className="btn bg-blue-500 hover:bg-blue-600 text-white w-1/2" disabled={isLoading}>
+              {isLoading ? 'Loading...' : 'Simpan'}
             </button>
           </div>
           <button type='button' className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={handleCancle}>✕</button>

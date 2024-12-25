@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 const EditUser = ({ userId, fetchAllUser }) => {
   const modalRef = useRef(null)
   const [role, setRole] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleCancle = () => {
     modalRef.current.close();
@@ -29,14 +30,14 @@ const EditUser = ({ userId, fetchAllUser }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    setIsLoading(true);
+
     if(!role){
       Swal.fire('Error', 'Semua field harus diisi', 'error');
     }
 
     try {
       const response = await updateRoleUser(userId, role);
-      
-      
       modalRef.current.close();
       Swal.fire('Success', response.message, 'success');
       await fetchAllUser();
@@ -44,6 +45,8 @@ const EditUser = ({ userId, fetchAllUser }) => {
     } catch (error) {
       console.log(error);
       throw error;
+    }finally{
+      setIsLoading(false);
     }
   }
 
@@ -56,7 +59,7 @@ const EditUser = ({ userId, fetchAllUser }) => {
             <div className="mb5">
               <select className="select select-bordered w-full"
                 value={role}
-                onChange={(e) => setRole(e.target.value)}>
+                onChange={(e) => setRole(e.target.value)} required>
                 <option value="" disabled>Pilih role...</option>
                 <option value='dosen'>Dosen</option>
                 <option value='mahasiswa'>Mahasiswa</option>
@@ -67,8 +70,8 @@ const EditUser = ({ userId, fetchAllUser }) => {
             <button type='button' className="btn btn-ghost bg-gray-300 hover:bg-gray-400  w-1/2" onClick={handleCancle}>
               Batal
             </button>
-            <button type='submit' className="btn bg-blue-500 hover:bg-blue-600 text-white w-1/2">
-              Simpan
+            <button type='submit' className="btn bg-blue-500 hover:bg-blue-600 text-white w-1/2" disabled={isLoading}>
+              {isLoading ? 'menyimpan...' : 'Simpan'}
             </button>
           </div>
           <button type='button' className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={handleCancle}>✕</button>

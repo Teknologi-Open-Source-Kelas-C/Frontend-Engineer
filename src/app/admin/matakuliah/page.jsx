@@ -75,20 +75,34 @@ const Page = () => {
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Ya, hapus!',
+        showLoaderOnConfirm: true, // Aktifkan loading indikator
+        allowOutsideClick: false, // Cegah modal tertutup jika klik di luar
+        preConfirm: async () => {
+          try {
+            // Proses delete
+            const response = await deleteMatakuliah(id);
+            if (response.status === 200) {
+              await getListMatakuliah(); // Refresh data setelah delete berhasil
+              Swal.fire('Success', response.message, 'success');
+            } else {
+              throw new Error(response.message || 'Gagal menghapus data.');
+            }
+          } catch (error) {
+            console.error('Error delete matakuliah:', error.message);
+            Swal.fire('Error!', 'Terjadi kesalahan saat menghapus data.', 'error');
+          }
+        },
       });
-
+  
       if (result.isConfirmed) {
-        const response = await deleteMatakuliah(id);
-        if (response.status === 200) {
-          await getListMatakuliah();
-          Swal.fire('Success', response.message, 'success');
-        }
+        console.log('Data berhasil dihapus.');
       }
     } catch (error) {
       console.error('Error delete matakuliah:', error.message);
-      return Swal.fire('Error!', 'Terjadi kesalahan saat menghapus data.', 'error');
+      Swal.fire('Error!', 'Terjadi kesalahan.', 'error');
     }
   };
+  
 
   const filteredMatakuliah = listMatakuliah.filter((matakuliah) =>
     matakuliah.nama.toLowerCase().includes(searchTerm.toLowerCase()) ||
