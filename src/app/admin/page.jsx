@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import { getCount } from '../services/countServices'
-const adminPage = () => {
+const Page = () => {
   const [count, setCount] = useState('');
 
   const fetchCount = async () => {
@@ -51,4 +51,4 @@ const adminPage = () => {
   )
 }
 
-export default adminPage
+export default Page

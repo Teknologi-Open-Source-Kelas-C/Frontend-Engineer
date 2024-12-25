@@ -6,7 +6,7 @@ import { register } from '../../services/authServices';
 import { FaEnvelope, FaKey, FaUser } from "react-icons/fa";
 
 
-const Register = () => {
+const Page = () => {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [nama, setNama] = useState('');
@@ -81,4 +81,4 @@ const Register = () => {
   )
 }
 
-export default Register
+export default Page

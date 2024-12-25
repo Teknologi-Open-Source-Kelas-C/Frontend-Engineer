@@ -28,7 +28,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-, "src/app/(authentication)/login/page.jsx", "src/app/dashboard/page.jsx", "src/app/403/page.jsx"  ],
+, "src/app/(authentication)/login/Page.jsx", "src/app/dashboard/Page.jsx", "src/app/403/page.jsx"  ],
   "exclude": [
     "node_modules"
   ]

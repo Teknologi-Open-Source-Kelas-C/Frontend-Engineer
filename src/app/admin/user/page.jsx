@@ -9,7 +9,7 @@ import EditUser from '../../components/layout/admin/modal/EditUser'
 import Swal from 'sweetalert2'
 import debounce from 'lodash.debounce'
 
-const page = () => {
+const Page = () => {
   const [listUser, setListUser] = useState([])
   const [userId, setUserId] = useState('')
   const [searchTerm, setSearchTerm] = useState('');
@@ -124,4 +124,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

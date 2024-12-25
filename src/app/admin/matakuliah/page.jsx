@@ -9,7 +9,7 @@ import EditMatakuliah from '../../components/layout/admin/modal/EditMatakuliah'
 import Swal from 'sweetalert2'
 import debounce from 'lodash.debounce'
 
-const page = () => {
+const Page = () => {
   const [listMatakuliah, setListMatakuliah] = useState([])
   const [listDosen, setListDosen] = useState([])
   const [selectMatakuliah, setSelectMatakuliah] = useState('')
@@ -140,4 +140,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

@@ -13,7 +13,7 @@ import ModalUploadModulDosen from '../../../components/common/ModalUploadModulDo
 import Loading from '../../../components/common/Loading'
 import { useFilter } from '../../../contexts/FileFilterContext'
 
-const page = () => {
+const Page = () => {
     const { id } = useParams();
     const [matakuliah, setMatakuliah] = useState(null);
     const [listDosen, setListDosen] = useState([]);
@@ -141,4 +141,4 @@ const page = () => {
     )
 }
 
-export default page
+export default Page
