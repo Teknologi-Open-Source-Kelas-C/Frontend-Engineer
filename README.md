@@ -21,7 +21,7 @@ berikut adalah cara untuk instalasi
 ```
 4. Open project in browser
 [local](https://localhost:3000)
-
+[production](https://e-learning-informatika.vercel.app)
 
 
 
