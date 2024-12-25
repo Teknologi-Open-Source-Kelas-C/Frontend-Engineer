@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation'
 import Swal from 'sweetalert2'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { login } from '../../services/authServices'
 import { getRole } from '../../utils/authHelper'
 import { FaEnvelope, FaKey } from "react-icons/fa";
@@ -20,24 +20,28 @@ const Page = () => {
     setIsLoading(true);
     try {
       const data = await login(email, password, roleUser);
-      document.cookie = `token=${data.token}; path=/;`;
-      document.cookie = `username = ${data.user.nama}; path=/;`;
-      document.cookie = `userRole = ${data.user.role}; path=/;`;
-
+      
+      // Menyimpan cookie hanya di sisi klien setelah render
+      if (typeof window !== 'undefined') {
+        document.cookie = `token=${data.token}; path=/;`;
+        document.cookie = `username=${data.user.nama}; path=/;`;
+        document.cookie = `userRole=${data.user.role}; path=/;`;
+      }
 
       const role = getRole();
       if (role === 'admin') {
         router.push('/admin');
       } else {
-        router.push('/dashboard')
+        router.push('/dashboard');
       }
       Swal.fire('Success', 'Login successful', 'success');
     } catch (error) {
       Swal.fire('Error', error.message, 'error');
-    }finally{
+    } finally {
       setIsLoading(false);
     }
-  }
+  };
+
   return (
     <div className='flex flex-col justify-center items-center min-h-screen bg-white px-4 md:px-8'>
       <div className="flex flex-col md:flex-row bg-white rounded-3xl border shadow-lg overflow-hidden max-w-4xl w-full md:h-[556px]">
@@ -57,10 +61,10 @@ const Page = () => {
               </label>
             </div>
 
-            {/* dropdown */}
+            {/* Dropdown untuk memilih role */}
             <div className='w-full mb-4'>
               <select className="select select-bordered w-full" value={roleUser} onChange={(e) => setRoleUser(e.target.value)} required>
-                <option value="" disabled >Pilih Role</option>
+                <option value="" disabled>Pilih Role</option>
                 <option value="admin">Admin</option>
                 <option value="dosen">Dosen</option>
                 <option value="mahasiswa">Mahasiswa</option>
@@ -69,9 +73,7 @@ const Page = () => {
             <button className="btn bg-blue-500 hover:bg-blue-600 text-white w-full" disabled={isLoading}>{isLoading ? 'loading...' : 'Login'}</button>
           </form>
 
-
           <div className="flex justify-between mt-4 text-gray-600 text-sm">
-            <a href="#" className="text-blue-800 hover:underline"></a>
             <p>Dont have an account? <span onClick={() => router.push('/register')} className="text-blue-800 hover:underline cursor-pointer">Create</span></p>
           </div>
         </div>
@@ -81,7 +83,7 @@ const Page = () => {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default Page
+export default Page;
