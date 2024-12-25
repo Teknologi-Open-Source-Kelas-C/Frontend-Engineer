@@ -39,6 +39,19 @@ berikut adalah cara untuk instalasi
 4. Tampilan Detail Matakuliah dan List Modul
 ![Login Page](https://github.com/Teknologi-Open-Source-Kelas-C/UI-UX/blob/UI-mahasiswa/Tampilan%20lihat%20modul%20mahasiswa.jpg?raw=true)
 
+5. Tampilan upload modul dosen
+![Login Page](https://raw.githubusercontent.com/Teknologi-Open-Source-Kelas-C/UI-UX/refs/heads/uiuxAdminDosen/Tampilan%20upload%20dosen%202.png)
+
+6. Tampilan dashboard admin
+![Login Page](https://raw.githubusercontent.com/Teknologi-Open-Source-Kelas-C/UI-UX/refs/heads/uiuxAdminDosen/tampilan%20home%20admin.png)
+
+7. Tampilan list CRUD matakuliah admin
+![Login Page](https://raw.githubusercontent.com/Teknologi-Open-Source-Kelas-C/UI-UX/refs/heads/uiuxAdminDosen/tampilan%20admin%20MataKuliah.png)
+
+8. Tampilan list kelola user Admin
+![Login Page](https://raw.githubusercontent.com/Teknologi-Open-Source-Kelas-C/UI-UX/refs/heads/uiuxAdminDosen/tampilan%20admin%20user.png)
+
+
 
 
 ## Front-End
