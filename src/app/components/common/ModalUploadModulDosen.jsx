@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useRef, useState } from 'react'
-import { FaRegPlusSquare  } from "react-icons/fa";
+import { FaRegPlusSquare } from "react-icons/fa";
 import { uploadModul } from '../../services/modulServices';
 import Swal from 'sweetalert2';
 
@@ -15,8 +15,8 @@ const ModalUploadModulDosen = ({ idMatakuliah, fetchMatakuliahById }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    if(!title || !pertemuan || !file) {
+
+    if (!title || !pertemuan || !file) {
       modulRef.current.close();
       Swal.fire('Error', 'Semua field harus diisi', 'error');
       return;
@@ -36,10 +36,10 @@ const ModalUploadModulDosen = ({ idMatakuliah, fetchMatakuliahById }) => {
       setFile('');
       modulRef.current.close();
       fetchMatakuliahById();
-  } catch (error) {
-    Swal.fire('Error', error.message, 'error');
-    modulRef.current.close();
-    }finally{
+    } catch (error) {
+      Swal.fire('Error', error.message, 'error');
+      modulRef.current.close();
+    } finally {
       setIsLoading(false);
     }
   }
@@ -51,7 +51,7 @@ const ModalUploadModulDosen = ({ idMatakuliah, fetchMatakuliahById }) => {
   return (
     <>
       <div className='mb-4'>
-        <button className="btn bg-[#325797] hover:bg-[#2f528f] text-white" onClick={() => document.getElementById('uploadModul').showModal()}><FaRegPlusSquare  size={15} />Upload Modul</button>
+        <button className="btn bg-[#325797] hover:bg-[#2f528f] text-white" onClick={() => document.getElementById('uploadModul').showModal()}><FaRegPlusSquare size={15} />Upload Modul</button>
       </div>
 
       <dialog id="uploadModul" className="modal" ref={modulRef}>
@@ -62,17 +62,17 @@ const ModalUploadModulDosen = ({ idMatakuliah, fetchMatakuliahById }) => {
             <div className="mb-4">
               <label className="input input-bordered flex items-center gap-2">
                 Judul
-                <input type="text" className="grow" placeholder="Judul Modul" value={title} onChange={(e) => setTitle(e.target.value)}/>
+                <input type="text" className="grow" placeholder="Judul Modul" value={title} onChange={(e) => setTitle(e.target.value)} />
               </label>
             </div>
             <div className="mb-4">
               <label className="input input-bordered flex items-center gap-2">
                 Pertemuan ke
-                <input type="number" className="grow" placeholder="pertemuan ke" value={pertemuan} onChange={(e) => setPertemuan(e.target.value)}/>
+                <input type="number" className="grow" placeholder="pertemuan ke" value={pertemuan} onChange={(e) => setPertemuan(e.target.value)} />
               </label>
             </div>
             <div className="mb-4">
-              <input type="file" className="file-input file-input-ghost w-full max-w-xs" onChange={(e) => setFile(e.target.files[0])}/>
+              <input type="file" className="file-input file-input-ghost w-full" onChange={(e) => setFile(e.target.files[0])} />
             </div>
 
             <div className='flex justify-between gap-2'>
@@ -80,8 +80,6 @@ const ModalUploadModulDosen = ({ idMatakuliah, fetchMatakuliahById }) => {
               <button type='submit' className="btn w-52 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400" disabled={isLoading}>{isLoading ? 'menyimpan...' : 'Simpan'}</button>
             </div>
             {/* <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button> */}
-
-
           </form>
         </div>
       </dialog>

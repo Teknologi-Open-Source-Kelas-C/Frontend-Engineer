@@ -8,27 +8,10 @@ import { useRouter } from "next/navigation";
 import { fetchMatakuliahDosen } from "../../services/matakuliahService";
 import Loading from "../../components/common/Loading";
 
-const ListMatakuliahDosen = () => {
+const ListMatakuliahDosen = ({ isLoading, listMatakuliah }) => {
   const router = useRouter();
-  const [listMatakuliah, setListMatakuliah] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
   const [isNavigating, setIsNavigating] = useState(false); // State untuk navigasi
 
-  const getListMatakuliah = async () => {
-    try {
-      setIsLoading(true);
-      const response = await fetchMatakuliahDosen();
-      setListMatakuliah(response.data);
-    } catch (error) {
-      console.error(`Error fetching matakuliah: ${error.message}`);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    getListMatakuliah();
-  }, []);
 
   const responsive = {
     superLargeDesktop: {

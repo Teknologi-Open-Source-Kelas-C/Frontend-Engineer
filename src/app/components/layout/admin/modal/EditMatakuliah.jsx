@@ -9,7 +9,7 @@ import { updateMatakuliah, getMatakuliahById } from '../../../../services/mataku
 const animatedComponents = makeAnimated();
 
 
-const EditMatakuliah = ({ listDosen, matakuliahId, getListMatakuliah }) => {
+const EditMatakuliah = ({ listDosen, matakuliahId, getListMatakuliah, onRef }) => {
   const modalRef = useRef(null);
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [nama, setNama] = useState('');
@@ -46,6 +46,16 @@ const EditMatakuliah = ({ listDosen, matakuliahId, getListMatakuliah }) => {
     handleFetchMatakuliah();
 
   }, [matakuliahId]);
+
+  useEffect(() => {
+    // Meneruskan fungsi untuk mengontrol modal ke komponen induk
+    if (onRef) {
+      onRef({
+        openModal: () => modalRef.current.showModal(),
+        closeModal: () => modalRef.current.close(),
+      });
+    }
+  }, [onRef]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

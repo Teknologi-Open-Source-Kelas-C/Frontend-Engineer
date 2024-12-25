@@ -1,17 +1,37 @@
-// Utility untuk mengambil nilai cookie tertentu
+import Cookies from 'js-cookie';
+
+/**
+ * Mengambil nilai cookie tertentu.
+ * @param {string} name - Nama cookie.
+ * @returns {string | null} Nilai cookie atau null jika tidak ditemukan.
+ */
 export const getCookie = (name) => {
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop().split(';').shift();
-  return null;
+  return Cookies.get(name) || null;
 };
 
-export const isLoggedIn = () => !!getCookie('token');
-export const getRole = () => getCookie('userRole');
-export const getUsername = () => getCookie('username');
+/**
+ * Mengecek apakah user sudah login.
+ * @returns {boolean} True jika token ada, false jika tidak.
+ */
+export const isLoggedIn = () => !!Cookies.get('token');
 
+/**
+ * Mengambil role user dari cookie.
+ * @returns {string | null} Role user atau null jika tidak ditemukan.
+ */
+export const getRole = () => Cookies.get('userRole');
+
+/**
+ * Mengambil username dari cookie.
+ * @returns {string | null} Username atau null jika tidak ditemukan.
+ */
+export const getUsername = () => Cookies.get('username');
+
+/**
+ * Menghapus semua cookie terkait login (logout).
+ */
 export const logout = () => {
-  document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-  document.cookie = 'userRole=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-  document.cookie = 'username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+  Cookies.remove('token', { path: '/' });
+  Cookies.remove('userRole', { path: '/' });
+  Cookies.remove('username', { path: '/' });
 };

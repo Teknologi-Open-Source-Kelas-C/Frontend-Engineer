@@ -9,7 +9,7 @@ import EditUser from '../../components/layout/admin/modal/EditUser'
 import Swal from 'sweetalert2'
 import debounce from 'lodash.debounce'
 
-const page = () => {
+const Page = () => {
   const [listUser, setListUser] = useState([])
   const [userId, setUserId] = useState('')
   const [searchTerm, setSearchTerm] = useState('');
@@ -33,20 +33,34 @@ const page = () => {
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Ya, hapus!',
+        showLoaderOnConfirm: true, // Aktifkan loading indikator
+        allowOutsideClick: false, // Cegah modal tertutup jika klik di luar
+        preConfirm: async () => {
+          try {
+            // Proses delete
+            const response = await deleteUser(id);
+            if (response.status === 200) {
+              fetchAllUser(); // Refresh data setelah delete berhasil
+              Swal.fire('Success', response.message, 'success');
+            } else {
+              throw new Error(response.message || 'Gagal menghapus data.');
+            }
+          } catch (error) {
+            console.error('Error delete user:', error.message);
+            Swal.fire('Error!', 'Terjadi kesalahan saat menghapus data.', 'error');
+          }
+        },
       });
-
+  
       if (result.isConfirmed) {
-        const response = await deleteUser(id);
-        if (response.status === 200) {
-          fetchAllUser();
-          return Swal.fire('Success', response.message, 'success');
-        }
+        console.log('Data berhasil dihapus.');
       }
     } catch (error) {
-      console.error('Error delete matakuliah:', error.message);
-      return Swal.fire('Error!', 'Terjadi kesalahan saat menghapus data.', 'error');
+      console.error('Error delete user:', error.message);
+      Swal.fire('Error!', 'Terjadi kesalahan.', 'error');
     }
   };
+  
 
   const onEditHandle = (id) => {
     setUserId(id);
@@ -78,7 +92,7 @@ const page = () => {
       <div className="space-y-4">
         <main className="flex-1 p-6">
           <h2 className="text-2xl font-bold mb-4">Daftar Pengguna</h2>
-          <button className="btn btn-ghost bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded mb-4"  onClick={() => document.getElementById('tambahUser').showModal()}>+ Tambah pengguna</button>
+          {/* <button className="btn btn-ghost bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded mb-4"  onClick={() => document.getElementById('tambahUser').showModal()}>+ Tambah pengguna</button> */}
             <label className="input input-bordered flex items-center gap-2 mb-5 w-2/6">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -124,4 +138,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

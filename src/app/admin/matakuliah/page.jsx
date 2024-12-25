@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import ContentTable from './ContentTable'
 import TambahMatakuliah from '../../components/layout/admin/modal/TambahMatakuliah'
 import { deleteMatakuliah, fetchMatakuliah } from '../../services/matakuliahService'
@@ -9,7 +9,9 @@ import EditMatakuliah from '../../components/layout/admin/modal/EditMatakuliah'
 import Swal from 'sweetalert2'
 import debounce from 'lodash.debounce'
 
-const page = () => {
+const Page = () => {
+  const modalControllerRef = useRef(null);
+  const modalTambahControllerRef = useRef(null);
   const [listMatakuliah, setListMatakuliah] = useState([])
   const [listDosen, setListDosen] = useState([])
   const [selectMatakuliah, setSelectMatakuliah] = useState('')
@@ -18,8 +20,16 @@ const page = () => {
 
   const onEditHandle = (id) => {
     setSelectMatakuliah(id);
-    document.getElementById('editMatakuliahModal').showModal();
-  }
+    if (modalControllerRef.current) {
+      modalControllerRef.current.openModal(); // Buka modal
+    }
+  };
+
+  const onAddHandleModal = () => {
+    if (modalTambahControllerRef.current) {
+      modalTambahControllerRef.current.openModal(); // Buka modal
+    }
+  };
 
   const getAllDosen = async () => {
     try {
@@ -65,20 +75,34 @@ const page = () => {
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Ya, hapus!',
+        showLoaderOnConfirm: true, // Aktifkan loading indikator
+        allowOutsideClick: false, // Cegah modal tertutup jika klik di luar
+        preConfirm: async () => {
+          try {
+            // Proses delete
+            const response = await deleteMatakuliah(id);
+            if (response.status === 200) {
+              await getListMatakuliah(); // Refresh data setelah delete berhasil
+              Swal.fire('Success', response.message, 'success');
+            } else {
+              throw new Error(response.message || 'Gagal menghapus data.');
+            }
+          } catch (error) {
+            console.error('Error delete matakuliah:', error.message);
+            Swal.fire('Error!', 'Terjadi kesalahan saat menghapus data.', 'error');
+          }
+        },
       });
-
+  
       if (result.isConfirmed) {
-        const response = await deleteMatakuliah(id);
-        if (response.status === 200) {
-          await getListMatakuliah();
-          Swal.fire('Success', response.message, 'success');
-        }
+        console.log('Data berhasil dihapus.');
       }
     } catch (error) {
       console.error('Error delete matakuliah:', error.message);
-      return Swal.fire('Error!', 'Terjadi kesalahan saat menghapus data.', 'error');
+      Swal.fire('Error!', 'Terjadi kesalahan.', 'error');
     }
   };
+  
 
   const filteredMatakuliah = listMatakuliah.filter((matakuliah) =>
     matakuliah.nama.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -92,7 +116,7 @@ const page = () => {
       <div className="space-y-4">
         <main className="flex-1 p-6">
           <h2 className="text-2xl font-bold mb-4">Daftar Mata Kuliah</h2>
-          <button className="btn btn-wide bg-green-500 hover:bg-green-600 mb-5 text-white" onClick={() => document.getElementById('addMatakuliahModal').showModal()}>+ Tambah Mata Kuliah</button>
+          <button className="btn btn-wide bg-green-500 hover:bg-green-600 mb-5 text-white" onClick={onAddHandleModal}>+ Tambah Mata Kuliah</button>
           <label className="input input-bordered flex items-center gap-2 mb-5 w-2/6">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -132,12 +156,20 @@ const page = () => {
           </div>
         </main>
       </div>
-      <TambahMatakuliah listDosen={listDosen} getListMatakuliah={getListMatakuliah} />
-      <EditMatakuliah listDosen={listDosen} matakuliahId={selectMatakuliah} getListMatakuliah={getListMatakuliah} />
+      <TambahMatakuliah 
+      listDosen={listDosen} 
+      getListMatakuliah={getListMatakuliah} 
+      onRef={(controller) => (modalTambahControllerRef.current = controller)}
+      />
+      <EditMatakuliah 
+      listDosen={listDosen} 
+      matakuliahId={selectMatakuliah} 
+      getListMatakuliah={getListMatakuliah}  
+      onRef={(controller) => (modalControllerRef.current = controller)} />
 
     </main>
 
   )
 }
 
-export default page
+export default Page

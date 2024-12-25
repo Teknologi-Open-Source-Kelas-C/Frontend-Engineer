@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Navbar from '../components/layout/Navbar'
 import { getCookie } from '../utils/authHelper'
+import { FilterProvider } from '../contexts/FileFilterContext'
 
 
 const DasboardLayout = ({ children }) => {
@@ -14,15 +15,16 @@ const DasboardLayout = ({ children }) => {
   useEffect(() => {
     setUsername(getUsername);
   }, []);
-  
+
   return (
-    <div>
-      <Navbar username={username}/>
+    <FilterProvider>
+
+      <Navbar username={username} />
 
       <div>
         {children}
       </div>
-    </div>
+    </FilterProvider >
   )
 }
 

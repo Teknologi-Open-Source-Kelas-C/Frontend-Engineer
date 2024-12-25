@@ -3,30 +3,12 @@
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import React, { useState, useEffect } from 'react'
-import Skeleton from '../../components/common/Skeleton';
 import { useRouter } from 'next/navigation';
-import { fetchMatakuliah } from '../../services/matakuliahService';
+import Loading from '../../components/common/Loading';
 
-const ListMatakuliahMahasiswa = () => {
+const ListMatakuliahMahasiswa = ({ listMatakuliah, isLoading }) => {
   const router = useRouter();
-  const [listMatakuliah, setListMatakuliah] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const getListMatakuliah = async () => {
-    try {
-      setIsLoading(true);
-      const response = await fetchMatakuliah();
-      setListMatakuliah(response.data);
-    } catch (error) {
-      throw new Error(`Error fetching matakuliah: ${error.message}`);
-    } finally {
-      setIsLoading(false);
-    }
-  }
-
-  useEffect(() => {
-    getListMatakuliah();
-  }, []);
+  
   const responsive = {
     superLargeDesktop: {
       breakpoint: { max: 4000, min: 3000 },
@@ -52,7 +34,7 @@ const ListMatakuliahMahasiswa = () => {
     <section className="bg-white p-6 rounded-lg shadow-md mb-8 w-full overflow-x-hidden">
       <h2 className="text-xl font-semibold text-black-700 mb-4">Courses</h2>
       {isLoading ? (
-        <Skeleton />
+        <Loading />
       ) : listMatakuliah.length === 0 ? (
         <p className='text-center text-xl font-semibold'>Tidak ada matakuliah</p>
       ) : (
