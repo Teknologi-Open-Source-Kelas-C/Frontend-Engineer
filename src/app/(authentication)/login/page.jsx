@@ -6,6 +6,7 @@ import React, { useState, useEffect } from 'react'
 import { login } from '../../services/authServices'
 import { getRole } from '../../utils/authHelper'
 import { FaEnvelope, FaKey } from "react-icons/fa";
+import Cookies from 'js-cookie';
 
 const Page = () => {
   const router = useRouter();
@@ -23,10 +24,11 @@ const Page = () => {
       
       // Menyimpan cookie hanya di sisi klien setelah render
       if (typeof window !== 'undefined') {
-        document.cookie = `token=${data.token}; path=/;`;
-        document.cookie = `username=${data.user.nama}; path=/;`;
-        document.cookie = `userRole=${data.user.role}; path=/;`;
+        Cookies.set('token', data.token, { path: '/', expires: 7 }); // Berlaku 7 hari
+        Cookies.set('username', data.user.nama, { path: '/' });
+        Cookies.set('userRole', data.user.role, { path: '/' });
       }
+      
 
       const role = getRole();
       if (role === 'admin') {
